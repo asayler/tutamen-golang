@@ -36,3 +36,20 @@ func Test1(t *testing.T) {
 		t.Fatalf("Got secret '%s', expected 'open'", secret)
 	}
 }
+
+func TestEasy(t *testing.T) {
+
+	cli, err := NewClientV1(TLS_CRT, TLS_KEY, AC_SERVER, SS_SERVER)
+	if err != nil {
+		t.Fatal("Error creating client: " + err.Error())
+	}
+
+	secret, err := cli.GetSecretEasy(COLLECTION, SECRET)
+	if err != nil {
+		t.Fatal("Error getting secret: " + err.Error())
+	}
+
+	if secret != "open" {
+		t.Fatalf("Got secret '%s', expected 'open'", secret)
+	}
+}
