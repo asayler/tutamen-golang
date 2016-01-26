@@ -2,6 +2,7 @@ package tutamen
 
 import (
 	"os"
+	"os/user"
 	"errors"
 	"fmt"
 	"github.com/go-ini/ini"
@@ -45,6 +46,20 @@ func GetConfigDir() (string, error) {
 			return dir, nil
 		}
 		dir = home_dir + "/.config/pytutamen_client"
+		stat, err = os.Stat(dir)
+		if err == nil && stat.IsDir() {
+			return dir, nil
+		}
+	}
+
+	usr, err := user.Current()
+	if err == nil {
+		dir = usr.HomeDir + "/.config/tutamen"
+		stat, err := os.Stat(dir)
+		if err == nil && stat.IsDir() {
+			return dir, nil
+		}
+		dir = usr.HomeDir + "/.config/pytutamen_client"
 		stat, err = os.Stat(dir)
 		if err == nil && stat.IsDir() {
 			return dir, nil
