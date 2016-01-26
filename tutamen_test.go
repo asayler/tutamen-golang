@@ -21,7 +21,7 @@ func TestConfig(t *testing.T) {
 	t.Log("%+v\n", cfg)
 }
 
-func Test1(t *testing.T) {
+func TestAll(t *testing.T) {
 
 	dir, err := GetConfigDir()
 	if err != nil {
@@ -58,24 +58,9 @@ func Test1(t *testing.T) {
 	}
 }
 
-func TestEasy(t *testing.T) {
+func TestSuperEasy(t *testing.T) {
 
-	dir, err := GetConfigDir()
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-
-	cfg, err := GetConfig(dir)
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-
-	cli, err := NewClientV1(cfg.CertPath, cfg.KeyPath, cfg.ACUrl, cfg.SSUrl)
-	if err != nil {
-		t.Fatal("Error creating client: " + err.Error())
-	}
-
-	secret, err := cli.GetSecretEasy(COLLECTION, SECRET)
+	secret, err := GetSecretSuperEasy(COLLECTION, SECRET)
 	if err != nil {
 		t.Fatal("Error getting secret: " + err.Error())
 	}
