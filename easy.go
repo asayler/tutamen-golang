@@ -3,12 +3,7 @@ import "errors"
 
 func GetSecretSuperEasy(collection, secret string) (string, error) {
 
-	dir, err := GetConfigDir()
-	if err != nil {
-		return "", errors.New("Unable to find config dir: " + err.Error())
-	}
-
-	cfg, err := GetConfig(dir)
+	cfg, err := GetConfig()
 	if err != nil {
 		return "", errors.New("Error parsing config file(s): " + err.Error())
 	}

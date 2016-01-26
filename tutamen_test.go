@@ -8,12 +8,7 @@ const (
 
 func TestConfig(t *testing.T) {
 
-	dir, err := GetConfigDir()
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-
-	cfg, err := GetConfig(dir)
+	cfg, err := GetConfig()
 	if err != nil {
 		t.Fatal(err.Error())
 	}
@@ -23,12 +18,7 @@ func TestConfig(t *testing.T) {
 
 func TestAll(t *testing.T) {
 
-	dir, err := GetConfigDir()
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-
-	cfg, err := GetConfig(dir)
+	cfg, err := GetConfig()
 	if err != nil {
 		t.Fatal(err.Error())
 	}

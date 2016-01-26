@@ -69,10 +69,15 @@ func GetConfigDir() (string, error) {
 	return "", errors.New("No configuration directory found")
 }
 
-func GetConfig(dir string) (*Config, error) {
+func GetConfig() (*Config, error) {
 
 	cfg := new(Config)
 	var err error
+
+	dir, err := GetConfigDir()
+	if err != nil {
+		return nil, err
+	}
 
 	cfg.ini, err = ini.Load(
 		dir + "/core.conf",
