@@ -32,8 +32,8 @@ func NewClientV1(certpath, keypath, ac_server, ss_server string) (*client, error
 	// TODO: validation
 	c.certpath  = certpath
 	c.keypath   = keypath
-	c.ac_base   = "https://" + ac_server + "/api/v1/"
-	c.ss_base   = "https://" + ss_server + "/api/v1/"
+	c.ac_base   = ac_server + "/api/v1/"
+	c.ss_base   = ss_server + "/api/v1/"
 
 	x509, err := tls.LoadX509KeyPair(c.certpath, c.keypath)
 	if err != nil {
