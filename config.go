@@ -16,6 +16,7 @@ type Config struct {
 	Client    string
 	CertPath  string
 	KeyPath   string
+	ini      *ini.File
 }
 
 func GetConfigDir() (string, error) {
@@ -56,8 +57,9 @@ func GetConfigDir() (string, error) {
 func GetConfig(dir string) (*Config, error) {
 
 	cfg := new(Config)
+	var err error
 
-	inicfg, err := ini.Load(
+	cfg.ini, err = ini.Load(
 		dir + "/core.conf",
 		dir + "/srv_ac.conf",
 		dir + "/srv_storage.conf")
@@ -65,32 +67,32 @@ func GetConfig(dir string) (*Config, error) {
 		return nil, err
 	}
 
-	cfg.ACName = inicfg.Section("defaults").Key("ac_server").String()
+	cfg.ACName = cfg.ini.Section("defaults").Key("ac_server").String()
 	if cfg.ACName == "" {
 		return nil, errors.New("No default AC server defined")
 	}
 
-	cfg.ACUrl = inicfg.Section(cfg.ACName).Key("url").String()
+	cfg.ACUrl = cfg.ini.Section(cfg.ACName).Key("url").String()
 	if cfg.ACUrl == "" {
 		return nil, errors.New("No URL given for AC server '"+cfg.ACName+"'")
 	}
 
-	cfg.SSName = inicfg.Section("defaults").Key("storage_server").String()
+	cfg.SSName = cfg.ini.Section("defaults").Key("storage_server").String()
 	if cfg.SSName == "" {
 		return nil, errors.New("No default storage server defined")
 	}
 
-	cfg.SSUrl = inicfg.Section(cfg.SSName).Key("url").String()
+	cfg.SSUrl = cfg.ini.Section(cfg.SSName).Key("url").String()
 	if cfg.SSUrl == "" {
 		return nil, errors.New("No URL given for storage server '"+cfg.SSName+"'")
 	}
 
-	cfg.Account = inicfg.Section("defaults").Key("account").String()
+	cfg.Account = cfg.ini.Section("defaults").Key("account").String()
 	if cfg.Account == "" {
 		return nil, errors.New("No default account defined")
 	}
 
-	cfg.Client = inicfg.Section("defaults").Key("client").String()
+	cfg.Client = cfg.ini.Section("defaults").Key("client").String()
 	if cfg.Client == "" {
 		return nil, errors.New("No default client defined")
 	}
@@ -102,4 +104,9 @@ func GetConfig(dir string) (*Config, error) {
 		dir, cfg.Account, cfg.Client)
 
 	return cfg, nil
+}
+
+func (cfg *Config) GetString(section, key string) string {
+
+	return cfg.ini.Section(section).Key(key).String()
 }
